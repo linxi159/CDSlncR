@@ -65,10 +65,6 @@ mRNA_scRNA_raw <- mRNA_scRNA_raw[,-1]
 mRNA_scRNA_raw  <- t(mRNA_scRNA_raw)
 mRNA_scRNA_raw <- as.data.frame(mRNA_scRNA_raw)
 
-lncRNA_gene_pre <- read.csv("./data/lncRNA_gene-pre.csv")
-lncRNA_mRNA_exp <- read.csv("./data/lncRNA_mRNA-exp.csv")
-lncRNA_mRNA_exp <- as.matrix(lncRNA_mRNA_exp)
-
 ## compute the average expression values of duplicate genes and remove genes with constant expression values in all cells
 # Transformation using log2(x+1)
 lncRNA_scRNA_norm <- log2(lncRNA_scRNA_raw+1)
@@ -84,9 +80,19 @@ lncRNA_scRNA_norm_filter <- lncRNA_scRNA_norm_average[, which(lncRNA_scRNA_norm_
 mRNA_scRNA_norm_sd <- unlist(lapply(seq(dim(mRNA_scRNA_norm_average)[2]), function(i) sd(mRNA_scRNA_norm_average[, i])))
 mRNA_scRNA_norm_filter <- mRNA_scRNA_norm_average[, which(mRNA_scRNA_norm_sd > 0)]
 
-# save    
-#save(lncRNA_scRNA_norm, mRNA_scRNA_norm, lncRNA_scRNA_norm_filter,mRNA_scRNA_norm_filter, lncRNA_gene_pre, lncRNA_mRNA_exp,file = "Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData")
-load("Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData")
+# loading prediction lcnRNA-target to filter to human brain lncRNA-mRNA 
+lncRNA_mRNA_pre_1 <- unique(read.csv("./data/lncRNA_mRNA-pre.csv"))
+lncRNA_mRNA_pre_lncRNA <- as.vector(as.matrix(lncRNA_mRNA_pre_1[1]))
+lncRNA_name <- colnames(lncRNA_scRNA_norm_filter)
+lncRNA_mRNA_pre_2 <- lncRNA_mRNA_pre_1[which(lncRNA_mRNA_pre_lncRNA %in% lncRNA_name),]
+lncRNA_mRNA_pre_mRNA <- as.vector(as.matrix(lncRNA_mRNA_pre_2[2]))
+mRNA_name <- colnames(mRNA_scRNA_norm_filter)
+lncRNA_mRNA_pre_3 <- lncRNA_mRNA_pre_2[which(lncRNA_mRNA_pre_mRNA %in% mRNA_name),]
+lncRNA_mRNA_pre <- lncRNA_mRNA_pre_3 
+# loading experimental lcnRNA-target
+lncRNA_mRNA_exp <- read.csv("./data/lncRNA_mRNA-exp.csv")
+lncRNA_mRNA_exp <- as.matrix(lncRNA_mRNA_exp)
+lncRNA_mRNA_exp <- unique(lncRNA_mRNA_exp)
 
 ##############################################################################################################################
 ####################################### <<2>> Exploring cell-specific lncRNA regulation ######################################
