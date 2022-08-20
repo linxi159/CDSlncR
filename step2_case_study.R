@@ -75,50 +75,7 @@ lncRNA_mRNA_exp <- unique(lncRNA_mRNA_exp)
 load("Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData")
 
 ##############################################################################################################################
-########################################## <<2>> Generating comparison data  #################################################
-##############################################################################################################################
-cell_type_number <- 5 # 5 development stages
-############ CSlncR_network_random ###########
-# random method as following # Extraction without replacement
-# The implementation is as following.
-
-############ CSlncR_network_LncRNA2Target ###########
-# LncRNA2Target
-CSlncR_network_LncRNA2Target_1 <- unique(read.csv("./data/lncRNA_mRNA-LncRNA2TargetPrediction.csv"))
-LncRNA2Target_lncRNA <- as.vector(as.matrix(CSlncR_network_LncRNA2Target_1[1]))
-lncRNA_name <- colnames(lncRNA_scRNA_norm_filter)
-CSlncR_network_LncRNA2Target_2 <- CSlncR_network_LncRNA2Target_1[which(LncRNA2Target_lncRNA %in% lncRNA_name),]
-LncRNA2Target_mRNA <- as.vector(as.matrix(CSlncR_network_LncRNA2Target_2[2]))
-mRNA_name <- colnames(mRNA_scRNA_norm_filter)
-CSlncR_network_LncRNA2Target_3 <- CSlncR_network_LncRNA2Target_2[which(LncRNA2Target_mRNA %in% mRNA_name),]
-CSlncR_network_LncRNA2Target_ <- CSlncR_network_LncRNA2Target_3 
-CSlncR_network_LncRNA2Target <-list()
-for (i in 1:cell_type_number){
-  CSlncR_network_LncRNA2Target[[i]] <- CSlncR_network_LncRNA2Target_
-}
-# save(CSlncR_network_LncRNA2Target,file = "CSlncR_network_LncRNA2Target.RData")
-# load("CSlncR_network_LncRNA2Target.RData")
-
-############ CSlncR_network_NPInterPrediction  ###########
-# NPInterPrediction
-lncRNA_gene_NPInterPrediction <- read.csv("./data/lncRNA_mRNA-NPInterPrediction.csv")
-CSlncR_network_NPInterPrediction_1 <-unique(lncRNA_gene_NPInterPrediction)
-NPInterPrediction_lncRNA <- as.vector(as.matrix(CSlncR_network_NPInterPrediction_1[1]))
-lncRNA_name <- colnames(lncRNA_scRNA_norm_filter)
-CSlncR_network_NPInterPrediction_2 <- CSlncR_network_NPInterPrediction_1[which(NPInterPrediction_lncRNA %in% lncRNA_name),]
-NPInterPrediction_mRNA <- as.vector(as.matrix(CSlncR_network_NPInterPrediction_2[2]))
-mRNA_name <- colnames(mRNA_scRNA_norm_filter)
-CSlncR_network_NPInterPrediction_3 <- CSlncR_network_NPInterPrediction_2[which(NPInterPrediction_mRNA %in% mRNA_name),]
-CSlncR_network_NPInterPrediction_ <- CSlncR_network_NPInterPrediction_3 
-CSlncR_network_NPInterPrediction <-list()
-for (i in 1:cell_type_number){
-  CSlncR_network_NPInterPrediction[[i]] <- CSlncR_network_NPInterPrediction_1
-}
-# save(CSlncR_network_NPInterPrediction,file = "CSlncR_network_NPInterPrediction.RData")
-# load("CSlncR_network_NPInterPrediction.RData")
-
-##############################################################################################################################
-####################################### <<3>> Exploring cell-specific lncRNA regulation ######################################
+####################################### <<2>> Exploring cell-specific lncRNA regulation ######################################
 ##############################################################################################################################
 ## Discovering cell-specific lncRNA-mRNA regulatory network   
 CSlncR_network_null <- CSlncR_net(lncRNA_scRNA_norm_filter, mRNA_scRNA_norm_filter)
@@ -149,7 +106,7 @@ CSlncR_network_src_  <- CSlncR_network_
 
 
 ##############################################################################################################################
-################################ <<4>> Dividing cells into different cell types ##############################################
+################################ <<3>> Dividing cells into different cell types ##############################################
 ##############################################################################################################################
 # [1]GW16 to GW23.5
 # Merging single-cell networks from 5 different developmental stages, separately, (CSlncR_network)
@@ -209,6 +166,48 @@ mRNA_scRNA_norm_filter <- rbind(mRNA_scRNA_norm_filter[1:26,],mRNA_scRNA_norm_fi
 lncRNA_mRNA_scRNA_norm_filter <- cbind(lncRNA_scRNA_norm_filter,mRNA_scRNA_norm_filter)
 
 #rm(list= "CSlncR_network_null_graph","CSlncR_network_null")
+
+##############################################################################################################################
+########################################## <<4>> Generating comparison data  #################################################
+##############################################################################################################################
+############ CSlncR_network_random ###########
+# random method as following # Extraction without replacement
+# The implementation is as following.
+
+############ CSlncR_network_LncRNA2Target ###########
+# LncRNA2Target
+CSlncR_network_LncRNA2Target_1 <- unique(read.csv("./data/lncRNA_mRNA-LncRNA2TargetPrediction.csv"))
+LncRNA2Target_lncRNA <- as.vector(as.matrix(CSlncR_network_LncRNA2Target_1[1]))
+lncRNA_name <- colnames(lncRNA_scRNA_norm_filter)
+CSlncR_network_LncRNA2Target_2 <- CSlncR_network_LncRNA2Target_1[which(LncRNA2Target_lncRNA %in% lncRNA_name),]
+LncRNA2Target_mRNA <- as.vector(as.matrix(CSlncR_network_LncRNA2Target_2[2]))
+mRNA_name <- colnames(mRNA_scRNA_norm_filter)
+CSlncR_network_LncRNA2Target_3 <- CSlncR_network_LncRNA2Target_2[which(LncRNA2Target_mRNA %in% mRNA_name),]
+CSlncR_network_LncRNA2Target_ <- CSlncR_network_LncRNA2Target_3 
+CSlncR_network_LncRNA2Target <-list()
+for (i in 1:cell_type_number){
+  CSlncR_network_LncRNA2Target[[i]] <- CSlncR_network_LncRNA2Target_
+}
+# save(CSlncR_network_LncRNA2Target,file = "CSlncR_network_LncRNA2Target.RData")
+# load("CSlncR_network_LncRNA2Target.RData")
+
+############ CSlncR_network_NPInterPrediction  ###########
+# NPInterPrediction
+lncRNA_gene_NPInterPrediction <- read.csv("./data/lncRNA_mRNA-NPInterPrediction.csv")
+CSlncR_network_NPInterPrediction_1 <-unique(lncRNA_gene_NPInterPrediction)
+NPInterPrediction_lncRNA <- as.vector(as.matrix(CSlncR_network_NPInterPrediction_1[1]))
+lncRNA_name <- colnames(lncRNA_scRNA_norm_filter)
+CSlncR_network_NPInterPrediction_2 <- CSlncR_network_NPInterPrediction_1[which(NPInterPrediction_lncRNA %in% lncRNA_name),]
+NPInterPrediction_mRNA <- as.vector(as.matrix(CSlncR_network_NPInterPrediction_2[2]))
+mRNA_name <- colnames(mRNA_scRNA_norm_filter)
+CSlncR_network_NPInterPrediction_3 <- CSlncR_network_NPInterPrediction_2[which(NPInterPrediction_mRNA %in% mRNA_name),]
+CSlncR_network_NPInterPrediction_ <- CSlncR_network_NPInterPrediction_3 
+CSlncR_network_NPInterPrediction <-list()
+for (i in 1:cell_type_number){
+  CSlncR_network_NPInterPrediction[[i]] <- CSlncR_network_NPInterPrediction_1
+}
+# save(CSlncR_network_NPInterPrediction,file = "CSlncR_network_NPInterPrediction.RData")
+# load("CSlncR_network_NPInterPrediction.RData")
 
 ###########################################################################################################################
 ################################## <<5>> 11 downstream computation  ->  3 Result analysis #################################
