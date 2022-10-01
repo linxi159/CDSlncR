@@ -243,11 +243,11 @@ module_ASD_EA <- function(lncRExp, mRExp, ASDgenes, Modulelist) {
 
 random.net.validate <- function(net_num, lncRTarget_graph, lncRExp, mRExp, perm = 100) {
   lncRmR.comb <- expand.grid(colnames(lncRExp), colnames(mRExp))
-  colnames(lncRmR.comb) <- c("lncRNA", "mRNA") 
-  interin <- 0
+  colnames(lncRmR.comb) <- c("lncRNA", "mRNA")
   net_mean <- net_num
   
   for (i in seq(length(net_num))) {
+    interin <- 0
     for (j in seq(perm)){
       lncRmR.random <- lncRmR.comb[sample(seq(nrow(lncRmR.comb)), net_num[i]),]
       lncRmR.random.graph <-make_graph(c(t(lncRmR.random[, 1:2])), directed = TRUE)
