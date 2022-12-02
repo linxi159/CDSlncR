@@ -1,30 +1,30 @@
-# CTSlncR
-Inferring cell-type-specific lncRNA regulation in the developing human neocortex with CTSlncR
-![](https://github.com/linxi159/CTSlncR/blob/main/figures/Figure_1.tif) 
+# CDSlncR
+Inferring cell-development-specific lncRNA regulation in the developing human neocortex with CDSlncR
+![](https://github.com/linxi159/CDSlncR/blob/main/figures/Figure_1.tif) 
 
 ## Description of each directory and each file
 data: The preprocessed data from real scRNA-seq data in GEO and other data.
 
-figures: The plot for CTSlncR.
+figures: The plot for CDSlncR.
 
 Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData: Matched lncRNA and mRNA expression data across 276 single cells in the human neocortex, Putative lncRNA-target binding information.
 
 CSlncR_network_GSE71315.RData: 276 cell-specific lncRNA regulatory networks.
 
-CTSlncR.R: Utility functions for exploring cell-type-specific lncRNA regulation.
+CDSlncR.R: Utility functions for exploring cell-development-specific lncRNA regulation.
 
 step1_data_preprocessing_dividing_mRNA_lncRNA.py: Dividing mRNAs and lncRNAs in the scRNA-seq data.
 
-step2_case_study.R: Running scripts for exploring cell-type-specific lncRNA regulation.
+step2_case_study.R: Running scripts for exploring cell-development-specific lncRNA regulation.
 
-## The usage of CTSlncR
-Paste all files into a single folder (set the folder as the directory of R environment), the workflow of CTSlncR is implemented in CTSlncR.R. The users can simply run the scripts as follows.
+## The usage of CDSlncR
+Paste all files into a single folder (set the folder as the directory of R environment), the workflow of CDSlncR is implemented in CDSlncR.R. The users can simply run the scripts as follows.
 ```
 source("step2_case_study.R")
 ```
 
-## Quick example to use CTSlncR
-For identifying cell-type-specific lncRNA regulation, users should prepare lncRNA and mRNA single-cell co-expression data. Paste the datasets and our source file (CTSlncR.R) into a single folder (set the folder as the directory of R environment), users can use the following scripts to identify cell-type-specific lncRNA regulation. For convenience, the datasets prepared for users are from our datasets (Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData).
+## Quick example to use CDSlncR
+For identifying cell-development-specific lncRNA regulation, users should prepare lncRNA and mRNA single-cell co-expression data. Paste the datasets and our source file (CDSlncR.R) into a single folder (set the folder as the directory of R environment), users can use the following scripts to identify cell-development-specific lncRNA regulation. For convenience, the datasets prepared for users are from our datasets (Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData).
 ```
 ## Load required R packages, please firstly install the following R packages before running scripts
 library(pracma)
@@ -43,7 +43,7 @@ library(vroom)
 library(doParallel)
 
 ## Load utility functions
-source("CTSlncR.R")
+source("CDSlncR.R")
 
 ##############################################################################################################################
 ############################################## <<1>> Loading data  ###########################################################
