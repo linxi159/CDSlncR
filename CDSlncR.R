@@ -1,5 +1,5 @@
 ############################################################################################
-######### Utility functions for exploring cell-development-specific lncRNA regulation ######
+### Utility functions for exploring cell developmental stage-specific lncRNA regulation ####
 ############################################################################################
 
 ## The original version of the function is written in Matlab at https://github.com/wys8c764/CSN 
@@ -98,11 +98,11 @@ CSlncR_net <- function(lncR, mR, boxsize = 0.1, p.value.cutoff = 0.05) {
 }
 
 
-## Function for identifying the overlap of cell-development-specific lncRNA-mRNA regulatory network
-# Netlist: list object, a list of cell-development-specific lncRNA-mRNA regulatory network
+## Function for identifying the overlap of cell developmental stage-specific lncRNA-mRNA regulatory network
+# Netlist: list object, a list of cell developmental stage-specific lncRNA-mRNA regulatory network
 # Intersect_num??The least number of different cell development stages intersected for overlap.
-# The value of 1 means the union of cell-development-specific lncRNA-mRNA interactions from different cell development stages.
-# Output: Overlap_res is the overlap of cell-development-specific lncRNA-mRNA regulatory network in all cell development stages.
+# The value of 1 means the union of cell developmental stage-specific lncRNA-mRNA interactions from different cell development stages.
+# Output: Overlap_res is the overlap of cell developmental stage-specific lncRNA-mRNA regulatory network in all cell development stages.
 Overlap_net_interaction <- function(Netlist, Intersect_num) {
   
   if (length(Netlist) >= 2 & length(Netlist) >= Intersect_num) {
@@ -138,11 +138,11 @@ Overlap_net_interaction <- function(Netlist, Intersect_num) {
 }
   
  
-## Function for identifying the overlap of cell-development-specific hub lncRNAs
-# Netlist: list object, a list of cell-development-specific hub lncRNAs
+## Function for identifying the overlap of cell developmental stage-specific hub lncRNAs
+# Netlist: list object, a list of cell developmental stage-specific hub lncRNAs
 # Intersect_num??The least number of different cell development stages intersected for overlap.
-# The value of 1 means the union of cell-development-specific hub lncRNAs from different development stages.
-# Output: Overlap_res is the overlap of cell-development-specific hub lncRNAs in all development stages.
+# The value of 1 means the union of cell developmental stage-specific hub lncRNAs from different development stages.
+# Output: Overlap_res is the overlap of cell developmental stage-specific hub lncRNAs in all development stages.
 Overlap_hub <- function(hublist, Intersect_num) {
   
   if (length(hublist) >= 2 & length(hublist) >= Intersect_num) {

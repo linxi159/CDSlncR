@@ -1,5 +1,5 @@
 ################################################################################################
-########### Running scripts for exploring cell-development-specific lncRNA regulation ##########
+####### Running scripts for exploring cell developmental stage-specific lncRNA regulation ######
 ################################################################################################
 
 ## Load required R packages, please firstly install the following R packages before running scripts
@@ -213,7 +213,7 @@ for (i in 1:cell_development_number){
 ################################## <<5>> 11 downstream computation  ->  3 Result analysis #################################
 ###########################################################################################################################
 # downstream [1] validated
-## Experimentally validated cell-type-specific lncRNA-mRNA interactions, the ground-truth (lncRTarget variable) is from the literature of NPInter database.
+## Experimentally validated cell developmental stage-specific lncRNA-mRNA interactions, the ground-truth (lncRTarget variable) is from the literature of NPInter database.
     # remove missing value
     lncRNA_mRNA_exp <- lncRNA_mRNA_exp[!is.na(lncRNA_mRNA_exp[1:length(lncRNA_mRNA_exp[,1]),1]),]  
     lncRTarget_graph <- make_graph(c(t(lncRNA_mRNA_exp[, 1:2])), directed = TRUE)
@@ -250,11 +250,11 @@ for (i in 1:cell_development_number){
     # load("CSlncR_network_validated_NPInterPrediction.RData") 
     
 # downstream [2] ASD
-## ASD-related cell-development-specific lncRNA-mRNA interactions. the list of ASD-related lncRNAs and mRNAs (ASD variable) is from SFARI tools, respectively    
+## ASD-related cell developmental stage-specific lncRNA-mRNA interactions. the list of ASD-related lncRNAs and mRNAs (ASD variable) is from SFARI tools, respectively    
     CSlncR_network_ASD <- lapply(seq(CSlncR_network), function(i) CSlncR_network[[i]][intersect(which(CSlncR_network[[i]][, 1] %in% as.matrix(ASD)), which(CSlncR_network[[i]][, 2] %in% as.matrix(ASD))), ])
     
 # downstream [3] interactions  ####[1] Result analysis: The lncRNA regulation in each cell development stage is unique####
-    ## Overlap of cell-development-specific lncRNA-mRNA interactions across cells  
+    ## Overlap of cell developmental stage-specific lncRNA-mRNA interactions across cells  
     Overlap_network <- Overlap_net_interaction(CSlncR_network, Intersect_num = round(length(CSlncR_network)*1)) #default: 1, for 5 development stages
     Overlap_network_union <- Overlap_net_interaction(CSlncR_network, Intersect_num = 1)
     Overlap_network_two <- Overlap_net_interaction(CSlncR_network, Intersect_num = 2) 
@@ -276,7 +276,7 @@ for (i in 1:cell_development_number){
     Overlap_network_rewired_ASD <- Overlap_network_rewired[intersect(which(Overlap_network_rewired[, 1] %in% as.matrix(ASD)), which(Overlap_network_rewired[, 2] %in% as.matrix(ASD))), ]
     
 # downstream [5] hub  ####[1] Result analysis: The lncRNA regulation in each cell development stage is unique####
-    ## Identifying cell-type-specific hub lncRNAs    
+    ## Identifying cell developmental stage-specific hub lncRNAs    
     CSlncR_network_outdegree <- lapply(seq(CSlncR_network), function(i) degree(CSlncR_network_graph[[i]], mode="out"))
     hub_lncRNAs <- lapply(seq(CSlncR_network), function(i) names(sort(CSlncR_network_outdegree[[i]][which(CSlncR_network_outdegree[[i]]!=0)], decreasing=TRUE))[1:ceiling(0.2*length(which(CSlncR_network_outdegree[[i]]!=0)))])
 
@@ -284,7 +284,7 @@ for (i in 1:cell_development_number){
     CSlncR_network_GW16_to_GW23.5_outdegree <- lapply(seq(CSlncR_network_GW16_to_GW23.5), function(i) degree(CSlncR_network_GW16_to_GW23.5_graph[[i]], mode="out"))
     hub_lncRNAs_GW16_to_GW23.5 <- lapply(seq(CSlncR_network_GW16_to_GW23.5), function(i) names(sort(CSlncR_network_GW16_to_GW23.5_outdegree[[i]][which(CSlncR_network_GW16_to_GW23.5_outdegree[[i]]!=0)], decreasing=TRUE))[1:ceiling(0.2*length(which(CSlncR_network_GW16_to_GW23.5_outdegree[[i]]!=0)))])
     
-    ## Overlap of cell-type-specific hub lncRNAs across cell types    
+    ## Overlap of cell developmental stage-specific hub lncRNAs across cell types    
     Overlap_hub_lncRNAs_conserved <- Overlap_hub(hub_lncRNAs, Intersect_num = round(length(hub_lncRNAs)*1.0)) #default: 1, for 5 development stages
     Overlap_hub_lncRNAs_union <- Overlap_hub(hub_lncRNAs, Intersect_num = 1)
     Overlap_hub_lncRNAs_two <- Overlap_hub(hub_lncRNAs, Intersect_num = 2)
@@ -293,7 +293,7 @@ for (i in 1:cell_development_number){
     # write.csv(Overlap_hub_lncRNAs_conserved,"./tmp.csv")
     
 # downstream [6] ASD-related hub       
-    ## ASD-related cell-development-specific hub lncRNAs    
+    ## ASD-related cell developmental stage-specific hub lncRNAs    
     hub_lncRNAs_ASD <- lapply(seq(hub_lncRNAs), function(i) hub_lncRNAs[[i]][which(hub_lncRNAs[[i]] %in% as.matrix(ASD))])
     
     ## ASD-related conserved and rewired hub lncRNAs    
@@ -301,9 +301,9 @@ for (i in 1:cell_development_number){
     Overlap_hub_lncRNAs_rewired_ASD <- Overlap_hub_lncRNAs_rewired[which(Overlap_hub_lncRNAs_rewired %in% as.matrix(ASD))]
     
 # downstream [7]  similarity matrix    
-    ## Calculating similarity matrix of cell-development-specific lncRNA-mRNA regulatory network across cell development stages    
+    ## Calculating similarity matrix of cell developmental stage-specific lncRNA-mRNA regulatory network across cell development stages    
     CSlncR_network_Sim <- Sim.network(CSlncR_network, CSlncR_network, directed = TRUE)
-    ## Calculating similarity matrix of cell-development-specific hub lncRNAs across cell development stages
+    ## Calculating similarity matrix of cell developmental stage-specific hub lncRNAs across cell development stages
     CSlncR_hub_Sim <- Sim.hub(hub_lncRNAs, hub_lncRNAs)
     #save(CSlncR_network_Sim,CSlncR_hub_Sim,file = "sim.RData")
     #load("sim.RData")
@@ -359,7 +359,7 @@ for (i in 1:cell_development_number){
     
     lncR_cell_type <- c(lncR_endothelia,lncR_radial_glia,lncR_dividing_radial_glia,lncR_intermediate_progenitors,lncR_newborn_neurons,lncR_maturing_excitatory_neurons,lncR_inhibitory_interneurons)
 
-    # Extracting lncR_cell_type related cell-development-specific lncRNA-mRNA regulatory networks
+    # Extracting lncR_cell_type related cell developmental stage-specific lncRNA-mRNA regulatory networks
     CSlncR_network_lncRcelltype <- lapply(seq(CSlncR_network), function(i) CSlncR_network[[i]][which(CSlncR_network[[i]][, 1] %in% as.matrix(lncR_cell_type)), ])
     
     # Extracting conserved and rewired lncRNA-mRNA regulatory networks associated with the lncR_cell_type
@@ -432,7 +432,7 @@ for (i in 1:cell_development_number){
     ggplot(pred_, aes(x = id, y = value)) +
       geom_bar(fill = ifelse(pred_$id=="conserved","blue","red"), stat = "identity", width = 0.6) +
       xlab("lncRNA regulation type") +
-      ylab("#Predicted targerts of cell-development-specific") +
+      ylab("#Predicted targerts of cell developmental stage-specific") +
       geom_text(aes(label=value,y=value+8),size=3)  # GW16: A, GW19.5: B, GW20.5: C, GW21: D, GW23.5: E
 
     # each plot is  700 400  // 550 550  GW16toGW23.5
@@ -489,16 +489,16 @@ for (i in 1:cell_development_number){
 ################################################################################################################################################    
     # downstream [9] Similarity network plot   #### [1] Result analysis: The lncRNA regulation in each cell development stage is unique ####   
 ################################################################################################################################################      
-## Similarity network plot in terms of cell-development-specific lncRNA-mRNA regulatory netowork    
+## Similarity network plot in terms of cell developmental stage-specific lncRNA-mRNA regulatory netowork    
     par(mfrow=c(1,2)) # Form a 1-row, 2-column graphic matrix
     rownames(CSlncR_network_Sim) <- colnames(CSlncR_network_Sim) <- c("GW16","GW19.5","GW20.5","GW21","GW23.5")#rownames(lncRNA_scRNA_norm_filter) # c("GW16","GW19.5","GW20.5","GW21","GW23.5")#
-    corrplot(CSlncR_network_Sim, method = "pie", type = "upper",title = "A  Cell-development-specific lncRNA-mRNA interactions", mar=c(0,0,2,0),diag = FALSE, cl.lim = c(0, 1), tl.cex = 1)
+    corrplot(CSlncR_network_Sim, method = "pie", type = "upper",title = "A  cell developmental stage-specific lncRNA-mRNA interactions", mar=c(0,0,2,0),diag = FALSE, cl.lim = c(0, 1), tl.cex = 1)
     
-## Similarity network plot in terms of cell-type-specific hub lncRNAs
+## Similarity network plot in terms of cell developmental stage-specific hub lncRNAs
     rownames(CSlncR_hub_Sim) <- colnames(CSlncR_hub_Sim) <- c("GW16","GW19.5","GW20.5","GW21","GW23.5")#rownames(lncRNA_scRNA_norm_filter)# c("GW16","GW19.5","GW20.5","GW21","GW23.5")
-    corrplot(CSlncR_hub_Sim, method = "pie", type = "upper", title =    "B  Cell-development-specific hub lncRNAs", diag = FALSE, mar=c(0,0,2,0),cl.lim = c(0, 1), tl.cex = 1)
+    corrplot(CSlncR_hub_Sim, method = "pie", type = "upper", title =    "B  cell developmental stage-specific hub lncRNAs", diag = FALSE, mar=c(0,0,2,0),cl.lim = c(0, 1), tl.cex = 1)
     
-    # save 10.8 4.5 inches-pdf, 1080 450 (GW16toGW23.5)
+    # save 12 4.5 inches-pdf, 1200 450 (GW16toGW23.5)
 
 ################################################################################################################################################      
     # downstream [10] ggplot plot patchwork   #### [1] Result analysis: The lncRNA regulation in each cell development stage is unique #### 
@@ -590,7 +590,7 @@ library(patchwork)
 
 ############################################################################################################################################################        
 # downstream [11] comparison of CDSlncR-Random-LncRNA2Target-NPInterPrediction # 
-# [3] Result analysis: CDSlncR is effective in predicting cell-development-specific lncRNA targets #
+# [3] Result analysis: CDSlncR is effective in predicting cell developmental stage-specific lncRNA targets #
 ############################################################################################################################################################      
 ##### downstream [11] comparison of CDSlncR-Random-LncRNA2Target-NPInterPrediction
 ## Stem plots
@@ -667,7 +667,7 @@ library(patchwork)
 # save 8.5 5 inches-pdf, 850 500 tiff  # GW16, GW19.5, GW20.5, GW21, GW23.5
 
 
-#Supplement 1:average values and paired t-test
+# Supplement 1: average values and paired t-test
 mean(data1[1][1:5,]) # 0.4275737
 mean(data1[1][6:10,]) # 0.03846473
 t.test(data1[1][1:5,],data1[1][6:10,],paired = TRUE) # p-value = 8.710E-06
@@ -692,3 +692,16 @@ for (i in seq(Netlist)){
 num = unique(tmp) # num 11074
 percentage_conserved = length(rownames(Overlap_network)) / length(num) # 0.5334116 = 5907 / 11074
 percentage_rewired = length(rownames(Overlap_network_rewired)) /length(num) # 0.1357233 = 1503 / 11074
+
+# Supplement 3: verify lncRNA validated by wet-experiments and lncRNAs in the paper "A putative role for lncRNAs in epigenetic regulation of memory"
+lncRNA_validated <- unique(c(CSlncR_network_validated[[1]][,1],CSlncR_network_validated[[2]][,1],CSlncR_network_validated[[3]][,1],CSlncR_network_validated[[4]][,1],CSlncR_network_validated[[5]][,1]))
+lncRNA_epigenetic_1 <- c("17A","ANRIL","BACE1-AS","BC1","BC200","EBF3-AS","GDNF-AS1","GDNF‐AS","LRP1‐AS","MEG3","NEAT1","NEAT1-L","NEAT1-S","MIAT","NAT-RAD18","NDM29","SORL1-AS","Sox2-OT","HAR1A","HAR1F")
+lncRNA_epigenetic_2 <- c("HTT-AS","LINC00341","LINC00342","RPS20P22","TUG1","TUNA","TUNAR","HOTAIR","MALAT1","NORAD","p21","PINK1-AS","SNHG1","UCHL1-AS1","RMST","GAS5","DGCR5")
+lncRNA_epigenetic <- c(lncRNA_epigenetic_1,lncRNA_epigenetic_2)                    
+lncRAN_related <- intersect(lncRNA_validated,lncRNA_epigenetic)
+lncRAN_related
+
+
+
+
+
