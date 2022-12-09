@@ -1,5 +1,5 @@
 # CDSlncR
-Inferring cell-development-specific lncRNA regulation in the developing human neocortex with CDSlncR
+Inferring cell developmental stage-specific lncRNA regulation in the developing human neocortex with CDSlncR
 ![](https://github.com/linxi159/CDSlncR/blob/main/figures/Figure_1.tif) 
 
 ## Description of each directory and each file
@@ -11,11 +11,11 @@ Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData: Matched lncRNA and 
 
 CSlncR_network_GSE71315.RData: 276 cell-specific lncRNA regulatory networks.
 
-CDSlncR.R: Utility functions for exploring cell-development-specific lncRNA regulation.
+CDSlncR.R: Utility functions for exploring cell developmental stage-specific lncRNA regulation.
 
 step1_data_preprocessing_dividing_mRNA_lncRNA.py: Dividing mRNAs and lncRNAs in the scRNA-seq data.
 
-step2_case_study.R: Running scripts for exploring cell-development-specific lncRNA regulation.
+step2_case_study.R: Running scripts for exploring cell developmental stage-specific lncRNA regulation.
 
 ## The usage of CDSlncR
 Paste all files into a single folder (set the folder as the directory of R environment), the workflow of CDSlncR is implemented in CDSlncR.R. The users can simply run the scripts as follows.
@@ -24,7 +24,7 @@ source("step2_case_study.R")
 ```
 
 ## Quick example to use CDSlncR
-For identifying cell-development-specific lncRNA regulation, users should prepare lncRNA and mRNA single-cell co-expression data. Paste the datasets and our source file (CDSlncR.R) into a single folder (set the folder as the directory of R environment), users can use the following scripts to identify cell-development-specific lncRNA regulation. For convenience, the datasets prepared for users are from our datasets (Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData).
+For identifying cell developmental stage-specific lncRNA regulation, users should prepare lncRNA and mRNA single-cell co-expression data. Paste the datasets and our source file (CDSlncR.R) into a single folder (set the folder as the directory of R environment), users can use the following scripts to identify cell developmental stage-specific lncRNA regulation. For convenience, the datasets prepared for users are from our datasets (Exp_247_lncRNAs_10208_mRNAs_276_single_cells_GSE71315.RData).
 ```
 ## Load required R packages, please firstly install the following R packages before running scripts
 library(pracma)
@@ -68,7 +68,7 @@ mRNA_scRNA_raw <- as.data.frame(mRNA_scRNA_raw)
 ## compute the average expression values of duplicate genes and remove genes with constant expression values in all cells
 # Transformation using log2(x+1)
 lncRNA_scRNA_norm <- log2(lncRNA_scRNA_raw+1)
-mRNA_scRNA_norm <- log2(mRNA_scRNA_raw+1) 
+mRNA_scRNA_norm <- log2(mRNA_scRNA_raw+1)
 
 # Compute the average expression values of duplicate genes
 lncRNA_scRNA_norm_average <- Averg_Duplicate(lncRNA_scRNA_norm)
