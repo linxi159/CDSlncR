@@ -1,6 +1,6 @@
 # CDSlncR
 Inferring cell developmental stage-specific lncRNA regulation in the developing human neocortex with CDSlncR
-![](https://github.com/linxi159/CDSlncR/blob/main/figures/Figure_1.tif) 
+![](https://github.com/linxi159/CDSlncR/blob/main/Figures/Figure_1.tif) 
 
 ## Description of each directory and each file
 data: The preprocessed data from real scRNA-seq data in GEO and other data.
